@@ -8,6 +8,7 @@
     "url": "https://briefcase.so"
   },
   "homepage": "https://briefcase.so",
+  "repository": "https://github.com/Briefcase-AI/briefcase-plugin",
   "keywords": [
     "accounting",
     "bookkeeping",
@@ -23,7 +24,10 @@
         "longDescription": "Briefcase is bookkeeping and month-end automation for accountants, connected to Xero, QuickBooks and Briefcase Ledger. This plugin connects your assistant to your Briefcase workspace so it can review bills and receipts awaiting approval, explain Autopilot decisions, submit documents, manage expense claims and run prepayments, accruals and depreciation for your clients. The assistant acts as you, on the clients you choose, with your permissions.",
         "developerName": "Briefcase",
         "category": "Productivity",
-        "capabilities": ["Read", "Write"],
+        "capabilities": [
+          "Read",
+          "Write"
+        ],
         "websiteURL": "https://briefcase.so",
         "privacyPolicyURL": "https://briefcase.so/privacy-policy",
         "termsOfServiceURL": "https://briefcase.so/terms-of-service",

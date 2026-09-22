@@ -15,7 +15,7 @@ Once Briefcase is listed in the Claude connectors directory you can also find it
 ## Claude Code and Cowork
 
 ```
-/plugin marketplace add trybriefcase/briefcase-plugin
+/plugin marketplace add Briefcase-AI/briefcase-plugin
 /plugin install briefcase@briefcase
 /mcp
 ```
@@ -31,7 +31,7 @@ Until then, a workspace owner can add it by hand: **Settings → Security and lo
 ## Codex
 
 ```
-codex plugin marketplace add trybriefcase/briefcase-plugin
+codex plugin marketplace add Briefcase-AI/briefcase-plugin
 ```
 
 Then run `/plugins` inside Codex, install Briefcase and start a new session.
