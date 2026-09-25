@@ -1,7 +1,7 @@
 {
   "name": "briefcase",
-  "version": "1.0.0",
-  "description": "Review bookkeeping, submit documents and run the financial close in Briefcase through the connected assistant.",
+  "version": "1.1.0",
+  "description": "Review bookkeeping, submit documents, run the financial close, read ledger reports and raise sales invoices in Briefcase through the connected assistant.",
   "author": {
     "name": "Briefcase",
     "url": "https://briefcase.so"
@@ -12,6 +12,8 @@
     "accounting",
     "bookkeeping",
     "financial-close",
+    "invoicing",
+    "management-accounts",
     "xero",
     "quickbooks"
   ]

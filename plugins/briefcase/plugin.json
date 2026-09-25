@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "briefcase",
-  "version": "1.0.0",
-  "description": "Review bookkeeping, submit documents and run the financial close in Briefcase through the connected assistant.",
+  "version": "1.1.0",
+  "description": "Review bookkeeping, submit documents, run the financial close, read ledger reports and raise sales invoices in Briefcase through the connected assistant.",
   "author": {
     "name": "Briefcase",
     "url": "https://briefcase.so"
@@ -13,6 +13,8 @@
     "accounting",
     "bookkeeping",
     "financial-close",
+    "invoicing",
+    "management-accounts",
     "xero",
     "quickbooks"
   ],
@@ -21,7 +23,7 @@
       "interface": {
         "displayName": "Briefcase",
         "shortDescription": "Bookkeeping and month-end for accountants",
-        "longDescription": "Briefcase is bookkeeping and month-end automation for accountants, connected to Xero, QuickBooks and Briefcase Ledger. This plugin connects your assistant to your Briefcase workspace so it can review bills and receipts awaiting approval, explain Autopilot decisions, submit documents, manage expense claims and run prepayments, accruals and depreciation for your clients. The assistant acts as you, on the clients you choose, with your permissions.",
+        "longDescription": "Briefcase is bookkeeping and month-end automation for accountants, connected to Xero, QuickBooks and Briefcase Ledger. This plugin connects your assistant to your Briefcase workspace so it can review bills and receipts awaiting approval, explain Autopilot decisions, submit documents, manage expense claims, run prepayments, accruals and depreciation, read profit and loss, balance sheet and aged reports, and raise sales invoices and manual journals on Briefcase Ledger for your clients. The assistant acts as you, on the clients you choose, with your permissions.",
         "developerName": "Briefcase",
         "category": "Productivity",
         "capabilities": [
