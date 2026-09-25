@@ -28,4 +28,4 @@ Work as the signed-in Briefcase user on the clients they connected. Never guess 
 
 ## Follow up
 
-Use `briefcase_get_operation` to check an action that returned `dispatched`. Point the user to Settings → Connected assistants → Activity for the record of everything you changed.
+Use `briefcase_get_operation` to check an action that returned `dispatched`. Point the user to Settings → AI assistants → Activity for the record of everything you changed.

@@ -30,4 +30,4 @@ Report amounts in the client's currency exactly as returned. Do not recompute sc
 
 ## Wrap up
 
-Re-read the tracker after publishing so the user sees the updated position, and remind them the changes appear under Settings → Connected assistants → Activity.
+Re-read the tracker after publishing so the user sees the updated position, and remind them the changes appear under Settings → AI assistants → Activity.

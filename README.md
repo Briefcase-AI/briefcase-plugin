@@ -1,6 +1,6 @@
 # Briefcase for Claude and ChatGPT
 
-Connect your AI assistant to [Briefcase](https://briefcase.so). The assistant acts as you, on the clients you choose, with your Briefcase permissions. Every change it makes is recorded in Briefcase under Settings → Connected assistants.
+Connect your AI assistant to [Briefcase](https://briefcase.so). The assistant acts as you, on the clients you choose, with your Briefcase permissions. Every change it makes is recorded in Briefcase under Settings → AI assistants.
 
 Your Briefcase workspace needs assistant connections enabled. Ask your Briefcase contact if the connect page says it is not enabled.
 
