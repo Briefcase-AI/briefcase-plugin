@@ -10,7 +10,7 @@ Everything here needs the FINANCIAL_CLOSE permission in Briefcase. If a call ret
 ## Read before you write
 
 1. `briefcase_get_close_tracker` for the client and period. Explain the grid: opening balance, movement in the period, closing balance, and which periods are posted, due or paused.
-2. `briefcase_list_close_items` for one `module` at a time (`prepayment`, `deferred_income`, `accrual`, `fixed_asset`). `briefcase_get_close_item` for the detail the user asks about, including the source transaction where there is one.
+2. `briefcase_list_close_items` for one `module` at a time (`prepayment`, `deferred_income`, `accrual`, `fixed_asset`). The list gives each schedule's period summary; `briefcase_get_close_item` gives its periods (pass `period_start_date` and `period_end_date` for a long schedule) and the detail the user asks about, including the source transaction where there is one.
 3. Cross-check with `briefcase_list_transactions` when the user suspects a prepayment was published as a straight expense.
 
 Report amounts in the client's currency exactly as returned. Do not recompute schedules yourself; the tracker is authoritative.

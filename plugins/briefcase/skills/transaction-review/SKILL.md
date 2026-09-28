@@ -15,7 +15,7 @@ Work as the signed-in Briefcase user on the clients they connected. Never guess 
 
 ## Fix values
 
-- Use `briefcase_get_reference_data` for accounts, tax rates, tracking categories, businesses and properties before changing a coding. Quote the exact account name and code back to the user.
+- Use `briefcase_get_reference_data` for accounts (narrow with `account_class` or `search_term`), tax rates, tracking categories, businesses and properties before changing a coding. Quote the exact account name and code back to the user.
 - `briefcase_update_transaction` saves edits as metadata; it is last-write-wins, so read the transaction again before editing when the user has been working in the app.
 - Never change amounts, dates or suppliers without the user's confirmation. Say what you will change and wait.
 

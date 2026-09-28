@@ -11,7 +11,7 @@ A posted journal changes the client's accounts immediately and can only be rever
 
 - Check whether a journal is the right tool. Recurring prepayments, accruals, deferred income and depreciation belong in the close tools (see the financial close review skill), and a miscoded bill should be fixed on the transaction, not journalled over.
 - `briefcase_get_client` gives `general_ledger_lock_date`. Entries must be dated after it.
-- `briefcase_get_reference_data` with `kind: accounts` for account ids, and `kind: tax_rates` when a line carries VAT. Quote each account's name and code back to the user.
+- `briefcase_get_reference_data` with `kind: accounts` for account ids (narrow with `account_class`, for example `EXPENSE`, or `search_term`), and `kind: tax_rates` when a line carries VAT. Quote each account's name and code back to the user.
 - To correct something already posted, read it first with `briefcase_list_journals` (filter by `account_id` and dates) and `briefcase_get_journal`.
 
 ## Draft and preview
