@@ -1,7 +1,7 @@
 {
   "name": "briefcase",
-  "version": "1.1.0",
-  "description": "Review bookkeeping, submit documents, run the financial close, read ledger reports and raise sales invoices in Briefcase through the connected assistant.",
+  "version": "1.1.1",
+  "description": "Briefcase Ledger is AI-native accounting software for UK businesses and their accountants. Review what needs approval and why, read profit and loss, balance sheet and aged debtors, raise invoices, post journals and run month-end schedules. Also works for Xero and QuickBooks books through Briefcase Connect.",
   "author": {
     "name": "Briefcase",
     "url": "https://briefcase.so"
