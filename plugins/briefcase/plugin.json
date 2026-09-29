@@ -9,6 +9,7 @@
   },
   "homepage": "https://briefcase.so",
   "repository": "https://github.com/Briefcase-AI/briefcase-plugin",
+  "license": "MIT",
   "keywords": [
     "accounting",
     "bookkeeping",
