@@ -7,6 +7,7 @@
     "url": "https://briefcase.so"
   },
   "homepage": "https://briefcase.so",
+  "privacyPolicyUrl": "https://briefcase.so/privacy-policy",
   "repository": "https://github.com/Briefcase-AI/briefcase-plugin",
   "license": "MIT",
   "keywords": [
