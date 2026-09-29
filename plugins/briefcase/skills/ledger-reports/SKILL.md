@@ -11,7 +11,7 @@ These tools only work for Briefcase Ledger clients. Check `ledger_type` from `br
 
 - **Profit and loss:** `briefcase_get_profit_and_loss` with `start_date` and `end_date`. Add `comparison_start_date` and `comparison_end_date` for "this month against last month" or "this year against last year". Filter with `business_id` or `property_id` only when the user asks about one business or property (`briefcase_get_reference_data` with `kind: businesses` or `properties`).
 - **Balance sheet:** `briefcase_get_balance_sheet` with `as_at` (defaults to today) and optionally `comparison_as_at`. Retained earnings is the profit to date shown within equity, so `total_equity` equals `net_assets`.
-- **Aged creditors or debtors:** `briefcase_get_aged_report` with `subledger: ACCOUNTS_PAYABLE` (creditors) or `ACCOUNTS_RECEIVABLE` (debtors) and `as_at`. Totals cover every contact; contacts come largest balance first, 25 per page with up to 10 invoices each. Page with `after` for more contacts, and pass `contact_id` to see one contact's invoices in full.
+- **Aged creditors or debtors:** `briefcase_get_aged_report` with `subledger: ACCOUNTS_PAYABLE` (creditors) or `ACCOUNTS_RECEIVABLE` (debtors) and `as_at`. Totals cover every contact; contacts come largest balance first, 25 per page with up to 10 invoices each. Page with `after` for more contacts, and set `contact_id` to see one contact's invoices in full.
 
 Resolve relative periods ("last quarter", "year to date") to explicit dates, and say which dates you used. Ask for the financial year end when the user says "this year" and it matters.
 
