@@ -32,6 +32,7 @@
           "Write"
         ],
         "websiteURL": "https://briefcase.so",
+        "supportURL": "https://briefcase.so/help",
         "privacyPolicyURL": "https://briefcase.so/privacy-policy",
         "termsOfServiceURL": "https://briefcase.so/terms-of-service",
         "defaultPrompt": [
