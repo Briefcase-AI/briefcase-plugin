@@ -24,9 +24,7 @@ Choose Briefcase under `/mcp` to sign in. The plugin adds seven skills: transact
 
 ## ChatGPT
 
-Once Briefcase is listed in the ChatGPT plugin directory, open **Plugins**, search for Briefcase and press **+**. Sign in to Briefcase when asked.
-
-Until then, a workspace owner can add it by hand: **Settings → Security and login → Developer mode**, then **Plugins → +** and enter the server address `https://api.briefcase.so/mcp`.
+Open [Briefcase in the ChatGPT plugin directory](https://chatgpt.com/plugins/plugin_asdk_app_6abd0fee216c819191349465958a49d5) and press **+**, or search for Briefcase under **Plugins**. Sign in to Briefcase, choose your clients and approve.
 
 ## Codex
 
