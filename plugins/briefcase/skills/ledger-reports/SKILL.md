@@ -1,6 +1,6 @@
 ---
 name: ledger-reports
-description: Read and explain a Briefcase Ledger client's profit and loss, balance sheet, aged creditors and aged debtors, compare periods, and drill from a report line into the journals and source documents behind it. Use when the user asks how a client is doing, what makes up a balance, why a figure moved, or who owes or is owed money.
+description: Read and explain a Briefcase Ledger client's profit and loss, balance sheet, trial balance, aged creditors and aged debtors, compare periods, and drill from a report line into the journals and source documents behind it. Use when the user asks how a client is doing, what makes up a balance, why a figure moved, who owes or is owed money, or for a trial balance or nominal balances.
 ---
 
 # Ledger reports in Briefcase
@@ -11,6 +11,7 @@ These tools only work for Briefcase Ledger clients. Check `ledger_type` from `br
 
 - **Profit and loss:** `briefcase_get_profit_and_loss` with `start_date` and `end_date`. Add `comparison_start_date` and `comparison_end_date` for "this month against last month" or "this year against last year". Filter with `business_id` or `property_id` only when the user asks about one business or property (`briefcase_get_reference_data` with `kind: businesses` or `properties`).
 - **Balance sheet:** `briefcase_get_balance_sheet` with `as_at` (defaults to today) and optionally `comparison_as_at`. Retained earnings is the profit to date shown within equity, so `total_equity` equals `net_assets`.
+- **Trial balance:** `briefcase_get_trial_balance` with `as_at` (defaults to today). Every account with a balance sits in a debit or credit column. Balance sheet accounts show the balance at `as_at`; revenue and expense accounts show the financial year to date, and earlier years' profit or loss is one `retained_earnings_brought_forward` line. `totals.difference` is `0.00` when the ledger balances. The financial year comes from the client's year end; if the tool says none is set, ask the user for the first day of the financial year and pass it as `financial_year_start`. Use it when the user asks for a trial balance or nominal balances, or to read control accounts such as VAT, debtors, creditors and clearing accounts in one call (`reserved_type` marks them).
 - **Aged creditors or debtors:** `briefcase_get_aged_report` with `subledger: ACCOUNTS_PAYABLE` (creditors) or `ACCOUNTS_RECEIVABLE` (debtors) and `as_at`. Totals cover every contact; contacts come largest balance first, 25 per page with up to 10 invoices each. Page with `after` for more contacts, and set `contact_id` to see one contact's invoices in full.
 
 Resolve relative periods ("last quarter", "year to date") to explicit dates, and say which dates you used. Ask for the financial year end when the user says "this year" and it matters.
@@ -31,4 +32,4 @@ For an aged report line, the invoice `source` tells you which tool opens it (`SA
 
 ## Limits
 
-These reports read Briefcase's own ledger. There is no trial balance, VAT return or bank reconciliation tool; point the user to the Briefcase app for those. For how-to questions about the reports, use `briefcase_search_help` rather than guessing.
+These reports read Briefcase's own ledger. There is no VAT return tool; point the user to the Briefcase app for that. For bank reconciliation progress and which balance sheet accounts are signed off for a period, use `briefcase_get_working_paper` as described in the financial close review skill. For how-to questions about the reports, use `briefcase_search_help` rather than guessing.
