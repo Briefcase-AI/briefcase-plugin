@@ -20,7 +20,7 @@ Once Briefcase is listed in the Claude connectors directory you can also find it
 /mcp
 ```
 
-Choose Briefcase under `/mcp` to sign in. The plugin adds seven skills: transaction review, document submission, financial close review, ledger reports, sales invoicing, manual journals and expense claims.
+Choose Briefcase under `/mcp` to sign in. The plugin adds eight skills: transaction review, document submission, financial close review, ledger reports, management accounts, sales invoicing, manual journals and expense claims.
 
 ## ChatGPT
 
