@@ -54,7 +54,7 @@ Make these calls for the period end and keep each response; the verification app
 
 Quote amounts as returned, in the response's `currency`, following each response's `sign_convention`. Accounts with no movement or a zero balance are left out of the reports, so a missing account is nil.
 
-**Cost of sales.** Briefcase Ledger has no separate cost-of-sales account type. Treat expense accounts whose names describe direct costs (for example Cost of Goods Sold, Cost of Sales, Cost of Services, Purchases, Direct Costs, Subcontractors, Materials) as cost of sales, list the accounts you chose in the basis of preparation, and ask the user to confirm them the first time. If there are none, report revenue, overheads and net profit without a gross profit line rather than guessing.
+**Cost of sales.** The ledger types direct costs as cost of sales, and each profit and loss response lists those accounts in `cost_of_sales` with `total_cost_of_sales` and `gross_profit` (revenue less cost of sales). They are also listed in `expenses` and counted in `total_expenses`, so overheads are `total_expenses` − `total_cost_of_sales`; never add the two lists together. When `cost_of_sales` is empty, report revenue, overheads and net profit without a gross profit line. Do not move accounts between cost of sales and overheads yourself: if an expense account's name suggests a direct cost (Purchases, Materials, Subcontractors) or a cost-of-sales account looks like an overhead, raise it as a question for the accountant, who can switch the account's type in the chart of accounts.
 
 ## 4. Work out the KPIs
 

@@ -7,9 +7,9 @@ Choose 5 to 8 that suit the business and audience. Show each with its formula, i
 | KPI | Formula | Inputs from Briefcase | Notes |
 |---|---|---|---|
 | Revenue growth | (period revenue − comparison revenue) ÷ comparison revenue | P&L `total_revenue` for the period and comparison | Show against the prior period and the same period last year |
-| Gross margin % | (revenue − cost of sales) ÷ revenue | P&L lines; cost-of-sales accounts as chosen in step 3 of the skill | Leave out when no cost-of-sales accounts were identified |
+| Gross margin % | `gross_profit` ÷ `total_revenue` | P&L | Leave out when `cost_of_sales` is empty |
 | Net margin % | `net_profit` ÷ `total_revenue` | P&L | Before tax unless corporation tax is accrued |
-| Overheads % of revenue | (total expenses − cost of sales) ÷ revenue | P&L | |
+| Overheads % of revenue | (`total_expenses` − `total_cost_of_sales`) ÷ `total_revenue` | P&L | `total_expenses` includes cost of sales |
 | Cash | Sum of bank accounts on the balance sheet, and movement against the comparison date | Balance sheet; reference data `is_bank_account` | State overdrafts separately |
 | Current ratio | Current assets ÷ current liabilities | Balance sheet, reference data `type` | Treat `FIXED_ASSET` and `ACCUMULATED_DEPRECIATION` as non-current. Treat liabilities as current unless the account name says the debt is long term, and say so |
 

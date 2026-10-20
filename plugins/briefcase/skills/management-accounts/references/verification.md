@@ -25,7 +25,7 @@ These must agree to the penny. Compare decimal strings exactly. A failure is rep
 | # | Check | Inputs |
 |---|---|---|
 | T1 | Balance sheet balances: `total_assets` − `total_liabilities` = `net_assets` = `total_equity` | Balance sheet at period end and at the comparison date |
-| T2 | P&L adds up: revenue lines sum to `total_revenue`, expense lines to `total_expenses`, and `total_revenue` − `total_expenses` = `net_profit` | Each P&L response |
+| T2 | P&L adds up: revenue lines sum to `total_revenue`, expense lines to `total_expenses`, cost-of-sales lines to `total_cost_of_sales`, `total_revenue` − `total_cost_of_sales` = `gross_profit`, and `total_revenue` − `total_expenses` = `net_profit` | Each P&L response |
 | T3 | Profit to date ties to the balance sheet: balance sheet `retained_earnings` at period end = trial balance `retained_earnings_brought_forward` (credit less debit) + year-to-date `net_profit` | Balance sheet, trial balance, year-to-date P&L |
 | T4 | Trial balance balances: `totals.difference` = `0.00`, and every balance sheet account appears in the trial balance with the same amount | Trial balance, balance sheet |
 | T5 | Aged debtors total = the `ACCOUNTS_RECEIVABLE` control account; aged creditors total = the `ACCOUNTS_PAYABLE` control account | Aged reports, trial balance. A difference usually means unallocated payments or credits, or a journal posted to the control account; list what you find |
@@ -60,10 +60,10 @@ End the pack with:
 - **Tie-outs:** the T1–T8 table with the figures compared and pass, fail or skipped (with the reason).
 - **Readiness:** each readiness check and its result.
 - **Source map:** for each pack table, the tool and the dates it came from.
-- **Estimates and judgements:** cost-of-sales accounts chosen, any estimates (corporation tax, stock), KPI definitions where more than one exists.
+- **Estimates and judgements:** any estimates (corporation tax, stock), KPI definitions where more than one exists, and any account whose cost-of-sales or overhead type looks wrong (raised as a question, not regrouped).
 - **Reviewer checklist:**
   - Do the figures make sense for this client?
   - Are the caveats acceptable for this audience, or should items be fixed first?
-  - Are the estimates and the cost-of-sales classification right?
+  - Are the estimates right, and is each account's cost-of-sales or overhead type right for this client?
   - Are the client questions the right ones to ask?
   - Approve the basis of preparation wording before the pack leaves the practice.

@@ -19,7 +19,7 @@ One table: KPI, this period, comparison, change, and a one-line meaning. Follow 
 
 ## 4. Profit and loss
 
-Columns: this period, prior period, same period last year, year to date, prior year to date, and the variance against the main comparison (amount and %). Rows grouped as revenue, cost of sales and gross profit (when identified), overheads, net profit. Mark material variances.
+Columns: this period, prior period, same period last year, year to date, prior year to date, and the variance against the main comparison (amount and %). Rows grouped as revenue, cost of sales and gross profit (when the P&L lists `cost_of_sales`), overheads (expenses other than cost of sales), net profit. Mark material variances.
 
 ## 5. Balance sheet
 
