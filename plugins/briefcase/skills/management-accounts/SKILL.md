@@ -1,6 +1,6 @@
 ---
 name: management-accounts
-description: Prepare monthly or quarterly management accounts for a Briefcase Ledger client as a draft for the accountant to review. Checks the books are ready, pulls profit and loss, balance sheet, trial balance, cash and aged debtors and creditors, works out KPIs, writes commentary on the movements that matter, and proves every figure against the ledger in a verification appendix. Use when the user asks for management accounts, a monthly or quarterly pack, a board pack, a month-end report, or how a client did this month or quarter.
+description: Prepare monthly or quarterly management accounts for a Briefcase Ledger client as a draft for the accountant to review. Checks the books are ready, pulls profit and loss, balance sheet, trial balance, cash and aged debtors and creditors, works out KPIs the way Briefcase does, shows performance by department, location or project when the client uses reporting categories, writes commentary on the movements that matter, and proves every figure against the ledger in a verification appendix. Use when the user asks for management accounts, a monthly or quarterly pack, a board pack, a month-end report, or how a client did this month or quarter.
 ---
 
 # Management accounts in Briefcase
@@ -26,6 +26,7 @@ Settle these before pulling any figures. Use the defaults below and state them i
 - **Entity and accounting basis.** `briefcase_get_reference_data` with `kind: businesses` lists a sole trader's or landlord's businesses with their `type` and `accounting_method`. An empty list usually means a limited company on the accruals basis; confirm with the user when it matters. Cash basis businesses have no debtors, creditors or accruals to report, so leave those sections out and say why. Corporation tax applies to companies only.
 - **Audience.** Owner (default), board, lender or investor. It changes emphasis, not the figures (see `references/pack-template.md`).
 - **Comparisons.** Prior period and the same period last year by default. Budget comparison only when the user supplies a budget; never invent one.
+- **Reporting categories.** `briefcase_get_reference_data` with `kind: reporting_categories`. When the client uses them, the pack shows performance by the category the user names; with several and none named, use the first listed and say which. Leave the section out when the list is empty.
 - **Materiality.** A movement is material when it is at least 10% **and** at least £1,000 (or 1% of the period's revenue if larger). Tell the user the thresholds and use theirs if they give them.
 
 ## 2. Check the books are ready
@@ -49,8 +50,10 @@ Make these calls for the period end and keep each response; the verification app
 3. `briefcase_get_profit_and_loss` for the financial year to date, with the prior year to date as the comparison.
 4. `briefcase_get_balance_sheet` at the period end, with the prior period end as `comparison_as_at`.
 5. `briefcase_get_trial_balance` at the period end.
-6. `briefcase_get_aged_report` at the period end for `ACCOUNTS_RECEIVABLE` and for `ACCOUNTS_PAYABLE` (accrual basis only).
-7. `briefcase_get_reference_data` with `kind: accounts` for account `class`, `type`, `is_bank_account` and `reserved_type`.
+6. `briefcase_get_aged_report` for `ACCOUNTS_RECEIVABLE` and for `ACCOUNTS_PAYABLE` (accrual basis only), at the period end and at the comparison period end. Their `totals.total_without_vat` feed debtor and creditor days.
+7. `briefcase_get_reference_data` with `kind: accounts` for account `class`, `type`, `is_bank_account`, `reserved_type` and `account_role`. It returns up to 150 accounts with the full `total`; when there are more, call it once per `account_class`.
+8. `briefcase_get_profit_and_loss` for the trailing 12 months and the trailing 3 months ending at the period end, each with the same window ending at the comparison period end as the comparison (see `references/kpis.md`).
+9. When the client uses reporting categories: `briefcase_get_profit_and_loss` for the period with `columns_by_reporting_category_id`, and again for the comparison period.
 
 Quote amounts as returned, in the response's `currency`, following each response's `sign_convention`. Accounts with no movement or a zero balance are left out of the reports, so a missing account is nil.
 
@@ -58,7 +61,9 @@ Quote amounts as returned, in the response's `currency`, following each response
 
 ## 4. Work out the KPIs
 
-Pick 5 to 8 KPIs that suit the business and audience from `references/kpis.md`, compute them from the responses, and show each one's formula and inputs. Follow the pitfalls listed there, especially VAT in debtor days and the gearing definition.
+`references/kpis.md` has Briefcase's own KPI formulas, the ones its KPI tiles and custom reports use, so the pack agrees with what the client sees in Briefcase. Pick 5 to 8 that suit the business and audience, compute each for the period and its comparison from the responses, and show its formula and inputs.
+
+The KPIs read account types and roles, never account names. If an account looks as if it should carry a role it lacks, such as a loan without the loan role or wages outside payroll, do not count it yourself: raise it as a question for the accountant, who can set it in Briefcase under Chart of accounts → Account roles.
 
 ## 5. Prove the figures
 
@@ -76,7 +81,7 @@ For each material movement (3 to 5 of them, largest first):
 
 ## 7. Write the pack
 
-Follow `references/pack-template.md`: a one-page summary first (what happened, why, and 3 to 5 suggested actions), then KPIs, profit and loss, balance sheet, cash, aged debtors and creditors, commentary, and the verification appendix with the basis of preparation.
+Follow `references/pack-template.md`: a one-page summary first (what happened, why, and 3 to 5 suggested actions), then KPIs, profit and loss (with performance by reporting category when the client uses them), balance sheet, cash, aged debtors and creditors, commentary, and the verification appendix with the basis of preparation.
 
 Commentary says what happened, why, and what it means. Do not narrate numbers the tables already show, and do not make forward-looking claims the user has not given you. Report bad news as plainly as good news.
 

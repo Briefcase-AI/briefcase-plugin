@@ -21,13 +21,15 @@ One table: KPI, this period, comparison, change, and a one-line meaning. Follow 
 
 Columns: this period, prior period, same period last year, year to date, prior year to date, and the variance against the main comparison (amount and %). Rows grouped as revenue, cost of sales and gross profit (when the P&L lists `cost_of_sales`), overheads (expenses other than cost of sales), net profit. Mark material variances.
 
+**By reporting category** (when the client uses them): one table with a column per option, then Other and Unassigned when present, from the breakdown columns. Rows: revenue, gross profit (when there is cost of sales), overheads and contribution (the column's `net_profit`), with contribution for the comparison period and its change. Options with no revenue are cost centres: show their costs and no margin. Say what Unassigned holds and how large it is.
+
 ## 5. Balance sheet
 
-Columns: period end and the comparison date. Group as non-current assets, current assets, current liabilities, long-term liabilities, net assets, equity. Show retained earnings within equity as the report does.
+Columns: period end and the comparison date. Group as non-current assets, current assets, current liabilities, long-term liabilities, net assets, equity, by each account's `type`: non-current assets are `FIXED_ASSET`, `ACCUMULATED_DEPRECIATION` and `NON_CURRENT_ASSET`, long-term liabilities are `NON_CURRENT_LIABILITY`, and every other asset or liability is current. Show retained earnings within equity as the report does.
 
 ## 6. Cash
 
-Opening and closing cash per bank account and in total, the movement, and the main drivers of the movement from the balance sheet (profit, debtors, creditors, VAT, loans, drawings or dividends). Add runway when relevant.
+Opening and closing cash per bank account and in total, the movement, and the main drivers of the movement from the balance sheet (profit, debtors, creditors, VAT, loans from the `BORROWINGS` accounts, drawings or dividends). Add runway when relevant.
 
 ## 7. Aged debtors and creditors (accrual basis)
 

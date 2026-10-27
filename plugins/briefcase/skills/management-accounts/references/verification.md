@@ -60,10 +60,10 @@ End the pack with:
 - **Tie-outs:** the T1–T8 table with the figures compared and pass, fail or skipped (with the reason).
 - **Readiness:** each readiness check and its result.
 - **Source map:** for each pack table, the tool and the dates it came from.
-- **Estimates and judgements:** any estimates (corporation tax, stock), KPI definitions where more than one exists, and any account whose cost-of-sales or overhead type looks wrong (raised as a question, not regrouped).
+- **Estimates and judgements:** any estimates (corporation tax, stock), any of the pack's own figures beyond Briefcase's KPIs with the definition used, and any account whose cost-of-sales or overhead type, due date or role looks wrong (raised as a question, not regrouped or counted).
 - **Reviewer checklist:**
   - Do the figures make sense for this client?
   - Are the caveats acceptable for this audience, or should items be fixed first?
-  - Are the estimates right, and is each account's cost-of-sales or overhead type right for this client?
+  - Are the estimates right, and is each account's type and role right for this client (cost of sales or overheads, due within or after 12 months, payroll, stock, loans)?
   - Are the client questions the right ones to ask?
   - Approve the basis of preparation wording before the pack leaves the practice.

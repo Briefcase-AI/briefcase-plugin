@@ -1,36 +1,53 @@
 # KPIs
 
-Choose 5 to 8 that suit the business and audience. Show each with its formula, inputs and the comparison figure. If an input is missing, leave the KPI out and say why rather than approximating silently.
+These are Briefcase's own KPI formulas, the ones its KPI tiles and custom reports use, so a figure in the pack matches the one the client sees in Briefcase. Choose 5 to 8 that suit the business and audience. Show each for the period and its comparison, with its formula and inputs. If an input is missing, leave the KPI out and say why rather than approximating.
 
-## Core set
+## Inputs
 
-| KPI | Formula | Inputs from Briefcase | Notes |
+- **Account types and roles** come from `briefcase_get_reference_data` with `kind: accounts` (`type` and `account_role`), matched to report lines by account `id`. Roles are set per account in Briefcase: `PAYROLL` (wages and salaries, in cost of sales or overheads), `INTEREST`, `TAX` (corporation tax), `STOCK` and `BORROWINGS` (loans and finance). Use them as they are; an account that looks as if it should have a role is a question for the accountant, not an input.
+- **Current or not:** an asset is current unless its type is `FIXED_ASSET`, `ACCUMULATED_DEPRECIATION` or `NON_CURRENT_ASSET`. A liability is current unless its type is `NON_CURRENT_LIABILITY`.
+- **Overheads** are `total_expenses` − `total_cost_of_sales`. **Depreciation** is the expense accounts of type `DEPRECIATION_EXPENSE`.
+- **Balances** come from the balance sheet at the period end, as signed there (assets positive when debit, liabilities positive when credit). Cash at bank is the sum of the `BANK_ACCOUNT` balances, so an overdrawn account counts as negative. A `BORROWINGS` account with a debit balance reduces borrowings.
+- **Trade debtors and creditors** are `totals.total_without_vat` from `briefcase_get_aged_report` at the period end, for `ACCOUNTS_RECEIVABLE` and `ACCOUNTS_PAYABLE`. They leave out VAT, so days compare like with like.
+- **Trailing windows:** the 12 months ending at the period end, and the 3 months for months of cover, in whole calendar months when the period ends on a month end. When the books start inside a window, Briefcase scales by the months that have figures: check the window's first month, and if it has no revenue or expenses, find the first month that does. Then n is the number of months from it to the period end; otherwise n is 12 (or 3). Write "based on n months" beside any figure where n is shorter.
+
+## Formulas
+
+| KPI | Formula |
+|---|---|
+| Revenue | `total_revenue` |
+| Gross profit, gross margin | `gross_profit`; ÷ `total_revenue`. Leave out when `cost_of_sales` is empty |
+| Overheads % of revenue | Overheads ÷ `total_revenue` |
+| Payroll % of revenue | `PAYROLL` accounts (cost of sales and overheads) ÷ `total_revenue` |
+| Prime cost | (`total_cost_of_sales` + `PAYROLL` accounts not typed `COST_OF_SALES`) ÷ `total_revenue` |
+| EBITDA, EBITDA margin | `net_profit` + `INTEREST` accounts + `TAX` accounts + depreciation; ÷ `total_revenue` |
+| Net profit, net margin | `net_profit`; ÷ `total_revenue` |
+| Cash at bank | Sum of `BANK_ACCOUNT` balances |
+| Months of cover | Cash at bank × n ÷ (overheads − depreciation) over the trailing 3 months |
+| Net current assets, current ratio | Current assets − current liabilities; current assets ÷ current liabilities |
+| Debtor days | Trade debtors × 365 × n ÷ (trailing 12 months' `total_revenue` × 12) |
+| Creditor days | Trade creditors × 365 × n ÷ (trailing 12 months' `total_expenses` less `PAYROLL` accounts and depreciation, × 12) |
+| Stock days | `STOCK` account balances × 365 × n ÷ (trailing 12 months' `total_cost_of_sales` × 12) |
+| Net cash | Cash at bank − `BORROWINGS` account balances |
+| Net assets | `net_assets` |
+| Gearing | (`BORROWINGS` account balances + overdrawn bank accounts as positive amounts) ÷ `net_assets`, as a percentage |
+
+With n = 12 the days formulas are the familiar balance ÷ the year's flow × 365. `total_expenses` includes cost of sales, so creditor days measure suppliers across both.
+
+- **No denominator:** when a ratio's denominator is zero or negative, show "–" as Briefcase does, for example gearing when net assets are nil or negative, margins with no revenue, or days with no flow.
+- **Comparison figures:** work each KPI out at the comparison period's end the same way: balances from the balance sheet's comparison, aged reports at the comparison end date, and windows ending there.
+- **Missing roles:** with no `PAYROLL`, `STOCK` or `BORROWINGS` accounts, the KPIs that need them count nothing. Show them only when the role is in use, and say which accounts each one counted.
+
+## Other figures
+
+Not Briefcase KPIs, so label them as the pack's own when you show them:
+
+| Figure | Formula | When | Pitfalls |
 |---|---|---|---|
-| Revenue growth | (period revenue − comparison revenue) ÷ comparison revenue | P&L `total_revenue` for the period and comparison | Show against the prior period and the same period last year |
-| Gross margin % | `gross_profit` ÷ `total_revenue` | P&L | Leave out when `cost_of_sales` is empty |
-| Net margin % | `net_profit` ÷ `total_revenue` | P&L | Before tax unless corporation tax is accrued |
-| Overheads % of revenue | (`total_expenses` − `total_cost_of_sales`) ÷ `total_revenue` | P&L | `total_expenses` includes cost of sales |
-| Cash | Sum of bank accounts on the balance sheet, and movement against the comparison date | Balance sheet; reference data `is_bank_account` | State overdrafts separately |
-| Current ratio | Current assets ÷ current liabilities | Balance sheet, reference data `type` | Treat `FIXED_ASSET` and `ACCUMULATED_DEPRECIATION` as non-current. Treat liabilities as current unless the account name says the debt is long term, and say so |
-
-## Working capital (accrual basis only)
-
-| KPI | Formula | Inputs | Pitfalls |
-|---|---|---|---|
-| Debtor days | Trade debtors ÷ gross credit sales for the last 90 days × 90 | Aged debtors `totals.total`; gross sales from `briefcase_list_sales_invoices` (`total`, invoices issued in the 90 days) | Debtors include VAT and P&L revenue does not, so comparing them overstates days by up to 20%. Use gross invoice totals. If most sales are recorded from uploaded documents rather than Briefcase sales invoices, use P&L revenue for the 90 days and say the result is overstated by the VAT rate on standard-rated sales |
-| Creditor days | Trade creditors ÷ gross purchases on credit for the last 90 days × 90 | Aged creditors `totals.total`; P&L expenses excluding payroll, depreciation and other non-supplier costs | Using all expenses understates days; using net purchases against gross creditors overstates them. State the basis |
-| Quick ratio | (Current assets − stock) ÷ current liabilities | Balance sheet | Briefcase Ledger has no stock type; treat assets named stock or inventory as stock |
-
-Use a trailing period rather than annualising one month, and the same period length for the comparison figure.
-
-## Solvency and cash (when relevant)
-
-| KPI | Formula | When | Pitfalls |
-|---|---|---|---|
-| Gearing | Debt ÷ equity, or debt ÷ (debt + equity) | Business has loans | Two definitions exist; state which you used |
-| Net burn and runway | Average monthly fall in cash over the last three months; cash ÷ net burn | Loss-making or investor-backed | Needs three month-end balance sheets; skip if they are not available |
-| Payroll % of revenue | Wages, salaries and directors' remuneration ÷ revenue | People-heavy businesses | Name the accounts included |
-| Director's loan account | Balance of the account named for it | Companies | A debit balance means the director owes the company; flag it for the accountant rather than giving tax advice |
+| Quick ratio | (Current assets − `STOCK` account balances) ÷ current liabilities | Businesses holding stock | Use the stock role, never account names |
+| Net burn and runway | Average monthly fall in cash at bank over the last three months; cash at bank ÷ net burn | Loss-making or investor-backed | Needs three month-end balance sheets; skip if they are not available |
+| Director's loan account | Balance of the directors' loan account | Companies | A debit balance means the director owes the company; flag it for the accountant rather than giving tax advice |
+| Lender covenants | The facility's own definitions | Lender packs | Ask for the definitions; never substitute the KPIs above |
 
 ## Sector KPIs
 

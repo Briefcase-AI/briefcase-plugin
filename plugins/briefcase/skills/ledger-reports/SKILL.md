@@ -1,6 +1,6 @@
 ---
 name: ledger-reports
-description: Read and explain a Briefcase Ledger client's profit and loss, balance sheet, trial balance, aged creditors and aged debtors, compare periods, and drill from a report line into the journals and source documents behind it. Use when the user asks how a client is doing, what makes up a balance, why a figure moved, who owes or is owed money, or for a trial balance or nominal balances.
+description: Read and explain a Briefcase Ledger client's profit and loss (also by department, location, project or any other reporting category), balance sheet, trial balance, aged creditors and aged debtors, compare periods, and drill from a report line into the journals and source documents behind it. Use when the user asks how a client is doing, how a department, site or project performed, what makes up a balance, why a figure moved, who owes or is owed money, or for a trial balance or nominal balances.
 ---
 
 # Ledger reports in Briefcase
@@ -15,6 +15,16 @@ These tools only work for Briefcase Ledger clients. Check `ledger_type` from `br
 - **Aged creditors or debtors:** `briefcase_get_aged_report` with `subledger: ACCOUNTS_PAYABLE` (creditors) or `ACCOUNTS_RECEIVABLE` (debtors) and `as_at`. Totals cover every contact; contacts come largest balance first, 25 per page with up to 10 invoices each. Page with `after` for more contacts, and set `contact_id` to see one contact's invoices in full.
 
 Resolve relative periods ("last quarter", "year to date") to explicit dates, and say which dates you used. Ask for the financial year end when the user says "this year" and it matters.
+
+## Reporting categories
+
+Briefcase Ledger clients can tag lines with reporting categories such as Department, Location or Project, each with its options (Sales, Leeds, Project Alpha).
+
+- `briefcase_get_reference_data` with `kind: reporting_categories` lists the categories and their option ids. An empty list means the client uses none: say so rather than splitting the figures by account names.
+- **Every option side by side:** add `columns_by_reporting_category_id` to `briefcase_get_profit_and_loss`. `columns_by_reporting_category.columns` has one column per option (`kind: OPTION`, the 50 with the largest net first), then `OTHER` for the remaining options and `UNASSIGNED` for lines with no option in that category. Each column carries the same totals as the period, and together they add up to it. The columns cover the period only; for a comparison by option, make a second call with the comparison dates as `start_date` and `end_date`. When a breakdown is too large the tool says so; filter it to the options needed.
+- **One option or a few:** `reporting_category_filters` narrows every figure, the comparison included, to lines that match each category given: one of its `option_ids`, or with `include_unassigned`, no option in it. `briefcase_list_journals` takes the same filters, so you can drill into a filtered figure.
+- **Reading the columns:** an option's contribution is its revenue less its cost of sales and overheads, which is its `net_profit`. Unassigned holds what was never tagged, usually central costs; say how large it is, because a large Unassigned column means the split is partial. An option with no revenue is a cost centre: judge it by its costs rather than a margin.
+- The balance sheet, trial balance and aged reports are not split by reporting category.
 
 ## Report the numbers faithfully
 
