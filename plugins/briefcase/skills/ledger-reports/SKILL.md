@@ -1,6 +1,6 @@
 ---
 name: ledger-reports
-description: Read and explain a Briefcase Ledger client's profit and loss (also by department, location, project or any other reporting category), balance sheet, trial balance, aged creditors and aged debtors, compare periods, and drill from a report line into the journals and source documents behind it. Use when the user asks how a client is doing, how a department, site or project performed, what makes up a balance, why a figure moved, who owes or is owed money, or for a trial balance or nominal balances.
+description: Read and explain a Briefcase Ledger client's profit and loss (also by department, location, project or any other reporting category), balance sheet, trial balance, aged creditors and aged debtors, compare periods, and drill from a report line into the journals and source documents behind it. Also reads saved and custom reports, creates custom reports such as a management pack in Briefcase, and gives PDFs of any report. Use when the user asks how a client is doing, how a department, site or project performed, what makes up a balance, why a figure moved, who owes or is owed money, for a trial balance or nominal balances, for a saved or custom report, to build a report or dashboard in Briefcase, or for a report PDF.
 ---
 
 # Ledger reports in Briefcase
@@ -25,6 +25,17 @@ Briefcase Ledger clients can tag lines with reporting categories such as Departm
 - **One option or a few:** `reporting_category_filters` narrows every figure, the comparison included, to lines that match each category given: one of its `option_ids`, or with `include_unassigned`, no option in it. `briefcase_list_journals` takes the same filters, so you can drill into a filtered figure.
 - **Reading the columns:** an option's contribution is its revenue less its cost of sales and overheads, which is its `net_profit`. Unassigned holds what was never tagged, usually central costs; say how large it is, because a large Unassigned column means the split is partial. An option with no revenue is a cost centre: judge it by its costs rather than a margin.
 - The balance sheet, trial balance and aged reports are not split by reporting category.
+
+## Saved and custom reports
+
+- **List:** `briefcase_get_saved_report` without `report_id` lists the reports the user can see, newest first, with `type` (`CUSTOM` or a saved `PROFIT_AND_LOSS` view), `template`, `can_edit` and `web_url`. `search_term` filters by name.
+- **Read:** pass `report_id`. A custom report returns its settings and each widget with its figures for its saved period, or for `start_date` and `end_date` when given. Quote the figures as returned. When the response lists `omitted_widget_ids`, read those with `widget_ids`. A saved profit and loss view returns the `briefcase_get_profit_and_loss` arguments that reproduce it; call that tool with them for the figures.
+- **Create:** `briefcase_create_custom_report`. It saves a report in Briefcase and changes nothing in the books.
+  1. Pick a `template`: `MONTHLY_MANAGEMENT_PACK`, `REPORTING_CATEGORY_PERFORMANCE` (limited companies only, with the `reporting_category_id`), `CASH_AND_WORKING_CAPITAL`, or `BLANK` with your own `widgets`. `widgets` replaces a template's widgets; `briefcase_get_reference_data` with `kind: report_widgets` describes each widget type with its settings and defaults, the KPIs and each template's widgets, so read it before choosing widgets.
+  2. Set the period: a `period` preset, which moves on with time (default `LAST_MONTH`), or a fixed `start_date` and `end_date`. Add `comparison` if the user wants one other than the template's.
+  3. Call with `mode: preview` and a new `idempotency_key`. Show the user the name, period and comparison and the widgets in order, and explain any blocker in plain language: no permission to create in the Ledger, assistant changes turned off in Briefcase, an unknown category, option or account, or more than 40 widgets.
+  4. Only after the user agrees, call again with `mode: execute`, the same `idempotency_key` and the `preview_id`. Return the `web_url`. The report is shared with the user to edit and added to their favourites unless they asked otherwise (`should_add_to_favourites: false`).
+- **PDF:** `briefcase_get_report_pdf` with `report_id` for a saved or custom report, or `report` with the arguments the standard report's own tool takes (its `comparison` is `NONE`, `PREVIOUS_PERIOD` or `PREVIOUS_YEAR` rather than dates). Give the user the `download_url` straight away and say it expires in 15 minutes; fetch a new one if they need it later. You cannot read the PDF, so take any figures from the report tools.
 
 ## Report the numbers faithfully
 

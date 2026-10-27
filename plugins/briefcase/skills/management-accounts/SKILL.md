@@ -1,6 +1,6 @@
 ---
 name: management-accounts
-description: Prepare monthly or quarterly management accounts for a Briefcase Ledger client as a draft for the accountant to review. Checks the books are ready, pulls profit and loss, balance sheet, trial balance, cash and aged debtors and creditors, works out KPIs the way Briefcase does, shows performance by department, location or project when the client uses reporting categories, writes commentary on the movements that matter, and proves every figure against the ledger in a verification appendix. Use when the user asks for management accounts, a monthly or quarterly pack, a board pack, a month-end report, or how a client did this month or quarter.
+description: Prepare monthly or quarterly management accounts for a Briefcase Ledger client as a draft for the accountant to review. Checks the books are ready, pulls profit and loss, balance sheet, trial balance, cash and aged debtors and creditors, works out KPIs the way Briefcase does, shows performance by department, location or project when the client uses reporting categories, writes commentary on the movements that matter, proves every figure against the ledger in a verification appendix, and can save the pack in Briefcase as a custom report with a PDF. Use when the user asks for management accounts, a monthly or quarterly pack, a board pack, a month-end report, or how a client did this month or quarter.
 ---
 
 # Management accounts in Briefcase
@@ -92,3 +92,11 @@ Run the final checks in `references/verification.md`: fetch the period profit an
 ## 9. Hand over
 
 Give the user the pack marked "Draft — for accountant review", list the caveats and open questions for the client, and point them to the reviewer checklist at the end of the appendix. Offer to produce it as a document if the host can create files. Do not send it anywhere.
+
+Then offer to save it in Briefcase as a custom report, so the accountant can open the live figures and a PDF there. If the user agrees:
+
+1. `briefcase_create_custom_report` with `template: MONTHLY_MANAGEMENT_PACK`, a name such as "Management accounts September 2026", the pack's period as `start_date` and `end_date` so it keeps showing this period, the pack's main comparison as `comparison`, and the one-page summary as `summary`, headed "Draft — for accountant review" (paragraphs, bullets and bold only). Preview it and show the widgets; execute only once the user agrees, with the same `idempotency_key`.
+2. Read it back with `briefcase_get_saved_report` and compare the KPIs it shares with the pack. Both use the same formulas, so a difference means the books changed or an input differs: find out which before handing over.
+3. Give the user the report's `web_url`, and a PDF link from `briefcase_get_report_pdf` with its `report_id`, saying the link expires in 15 minutes.
+
+If a blocker stops it, such as no permission to create in the Ledger or assistant changes turned off in Briefcase, say so: the pack stands on its own. The pack itself, with its verification appendix, stays as above.
