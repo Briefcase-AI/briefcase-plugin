@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "briefcase",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "description": "Briefcase Ledger is AI-native accounting software for UK businesses and their accountants. Review what needs approval and why, read profit and loss, balance sheet and aged debtors, raise invoices, post journals and run month-end schedules. Also works for Xero and QuickBooks books through Briefcase Connect.",
   "author": {
     "name": "Briefcase",
@@ -45,7 +45,7 @@
         "logo": "./assets/logo.png"
       },
       "publication": {
-        "release_notes": "Adds a management accounts skill that prepares a draft monthly or quarterly pack with KPIs, commentary and a verification appendix. Ledger reports now read the trial balance, working papers, results by reporting category, and saved and custom reports; the assistant can create a custom report from a template and hand over a report PDF."
+        "release_notes": "Assistants can now change a custom report you can edit: rename it, move its period, rewrite its summary, or add, remove and rearrange its widgets, after showing you a preview. Management accounts updates a pack already saved for the same period instead of saving a second copy."
       }
     }
   }
