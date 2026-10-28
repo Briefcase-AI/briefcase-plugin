@@ -43,6 +43,9 @@
         "brandColor": "#429AAA",
         "composerIcon": "./assets/icon.png",
         "logo": "./assets/logo.png"
+      },
+      "publication": {
+        "release_notes": "Adds a management accounts skill that prepares a draft monthly or quarterly pack with KPIs, commentary and a verification appendix. Ledger reports now read the trial balance, working papers, results by reporting category, and saved and custom reports; the assistant can create a custom report from a template and hand over a report PDF."
       }
     }
   }
