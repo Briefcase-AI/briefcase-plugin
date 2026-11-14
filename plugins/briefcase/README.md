@@ -22,6 +22,7 @@ Your Briefcase workspace needs assistant connections enabled. If the sign-in pag
 - **Sales invoicing**: raise sales invoices, add customers without duplicating contacts, list what is unpaid and fetch invoice PDFs.
 - **Manual journals**: post corrections, reclassifications and period-end adjustments with the accounts and lock date checked.
 - **Expense claims**: group a claimant's receipts into an expense claim and publish it.
+- **Ledger migration**: move a limited company into Briefcase Ledger from Xero, QuickBooks Online or Sage Accounting export files, with a preview before anything is created; check that an import came across intact, explain any problem in plain figures, and list what is left to finish the move.
 
 ## What it connects to
 
