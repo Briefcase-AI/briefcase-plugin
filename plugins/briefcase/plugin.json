@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "briefcase",
-  "version": "1.8.0",
+  "version": "1.9.0",
   "description": "Briefcase Ledger is AI-native accounting software for UK businesses and their accountants. Review what needs approval and why, read profit and loss, balance sheet and aged debtors, raise invoices, post journals and run month-end schedules. Also works for Xero and QuickBooks books through Briefcase Connect.",
   "author": {
     "name": "Briefcase",
@@ -45,7 +45,7 @@
         "logo": "./assets/logo.png"
       },
       "publication": {
-        "release_notes": "Adds a ledger migration skill. Move a limited company into Briefcase Ledger from Xero, QuickBooks Online or Sage Accounting export files: the assistant says which reports to export, takes the files in the chat or through a Briefcase page, works through each question and shows a preview before anything is created. Afterwards it runs Briefcase's import checks, explains any problem in plain figures and lists what is left to finish the move."
+        "release_notes": "Adds a clients to-do skill. Ask which clients need attention and get one list across every client: bills and receipts to review, expense claims to publish, schedules to post, unreconciled bank lines, bank feeds and HMRC connections that have lapsed or are about to, VAT returns and MTD for Income Tax updates due, month-ends still open, paperwork clients still owe and overdue debtors. The assistant then offers the next actions and carries them out one client at a time, with a preview first. It now also previews every edit to a transaction, an expense claim or a schedule before saving it."
       }
     }
   }

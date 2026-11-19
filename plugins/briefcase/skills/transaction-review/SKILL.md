@@ -17,7 +17,9 @@ Work as the signed-in Briefcase user on the clients they connected. Never guess 
 
 - Use `briefcase_get_reference_data` for accounts (narrow with `account_class` or `search_term`), tax rates, tracking categories, businesses and properties before changing a coding. Quote the exact account name and code back to the user.
 - `briefcase_update_transaction` saves edits as metadata; it is last-write-wins, so read the transaction again before editing when the user has been working in the app.
-- Never change amounts, dates or suppliers without the user's confirmation. Say what you will change and wait.
+- Preview every edit: call it with `mode: preview` first. It returns `changes`, each field before and after, and any `blockers`. When you pass `line_items`, they are the full set to keep, so the preview also lists lines that would be removed.
+- Show the user the changes and wait. Only after they agree, call again with the same arguments, `mode: execute` and the `preview_id`. This tool takes no `idempotency_key`.
+- A `preview_id` lasts 10 minutes and only fits the arguments it was made for. `PREVIEW_EXPIRED` means preview again.
 
 ## Publish or archive
 

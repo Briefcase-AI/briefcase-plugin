@@ -31,8 +31,9 @@ Report amounts in the client's currency exactly as returned. Do not recompute sc
 
 ## Draft changes
 
-- `briefcase_create_close_item` creates drafts only. Accruals are created as a draft adjustment and are not posted. Always send a fresh `idempotency_key`.
-- `briefcase_update_close_item` edits a draft or the future periods of a schedule. For an accrual it edits the adjustment amount, date and lines, not the recurring parent's estimate.
+- `briefcase_create_close_item` creates drafts only. Accruals are created as a draft adjustment and are not posted. Call it with `mode: preview` and a fresh `idempotency_key` first: `item` is the draft exactly as it would be saved, with its periods and accounts. Only after the user agrees, call again with the same arguments, `mode: execute`, the same `idempotency_key` and the `preview_id`.
+- `briefcase_update_close_item` edits a draft or the future periods of a schedule. For an accrual it edits the adjustment amount, date and lines, not the recurring parent's estimate. Call it with `mode: preview` first: `changes` lists each field before and after, including every period that moves, and `resulting_item` is the item as it would be saved. Only after the user agrees, call again with the same arguments, `mode: execute` and the `preview_id`. It takes no `idempotency_key`.
+- A preview with `blockers` can't be executed; explain each one in plain language. A `preview_id` lasts 10 minutes; `PREVIEW_EXPIRED` means preview again.
 - Use `briefcase_get_reference_data` for balance sheet and expense accounts, and quote the account the schedule will post to.
 
 ## Publish, archive, restore

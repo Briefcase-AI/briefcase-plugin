@@ -14,6 +14,7 @@ Your Briefcase workspace needs assistant connections enabled. If the sign-in pag
 
 ## Skills
 
+- **Clients to do**: ask which clients need attention and get one list across every client, most urgent first: documents to review, expense claims to publish, schedules to post, unreconciled bank lines, bank feeds and HMRC connections that have lapsed or are about to, VAT returns and MTD for Income Tax updates due, month-ends still open, paperwork clients still owe and overdue debtors. Then act on it, one client at a time.
 - **Transaction review**: review bills and receipts awaiting review, explain Autopilot decisions and warnings, fix extracted values, and publish or archive them.
 - **Document submission**: upload a bill, receipt, bank statement or supplier statement to a client and follow it through to the resulting transaction.
 - **Financial close review**: check what is left to clear for a period and which balance sheet accounts are reconciled and signed off, and review and maintain prepayments, deferred income, accruals and depreciation at period end.

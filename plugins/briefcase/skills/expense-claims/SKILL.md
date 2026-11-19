@@ -15,9 +15,11 @@ An expense claim bundles unpublished receipts paid personally by one claimant, s
 
 ## Build the claim
 
-1. `briefcase_create_expense_claim` with the `transaction_ids`, the claimant as `supplier_id`, the `claim_date` and a fresh `idempotency_key`. All receipts must share one currency; a mismatch returns `VALIDATION_ERROR`, so split them into separate claims.
-2. `briefcase_add_claim_transactions` adds more unpublished receipts to a claim that is not yet published.
-3. `briefcase_remove_claim_transaction` takes one receipt back out of an unpublished claim.
+Preview each of these three first, with `mode: preview`. Show the user the preview and any `blockers`, and only after they agree call again with the same arguments, `mode: execute` and the `preview_id`. A `preview_id` lasts 10 minutes; `PREVIEW_EXPIRED` means preview again.
+
+1. `briefcase_create_expense_claim` with the `transaction_ids`, the claimant as `supplier_id`, the `claim_date` and a fresh `idempotency_key`; use the same key for the preview and the execute. The preview returns the claimant, the receipts and their total (`receipts.after`). All receipts must share one currency; a mismatch is a blocker, so split them into separate claims.
+2. `briefcase_add_claim_transactions` adds more unpublished receipts to a claim that is not yet published. The preview returns the claim's receipts and total before and after (`receipts.before`, `receipts.after`). It takes no `idempotency_key`.
+3. `briefcase_remove_claim_transaction` takes one receipt back out of an unpublished claim, with the same before and after in its preview and no `idempotency_key`.
 
 Fix a receipt's own coding with `briefcase_update_transaction` before publishing (see the transaction review skill).
 

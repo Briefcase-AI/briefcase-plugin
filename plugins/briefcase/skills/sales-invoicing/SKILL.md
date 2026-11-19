@@ -28,7 +28,7 @@ Say before executing that the invoice posts to the ledger straight away, is not 
 1. `briefcase_create_customer` with `mode: preview`, the `name`, and optionally `email` and `address` (`region_code` is the two-letter country code, for example `GB`).
 2. If the preview lists `candidates`, show them and ask whether the user meant one of those. Use the existing contact if so.
 3. `resulting_action: REUSE_EXISTING` means a contact with exactly that name already exists and will be made a customer rather than duplicated.
-4. Execute with a fresh `idempotency_key`. Pass `confirm_new_despite_candidates: true` only when the user has confirmed the new customer is different from every candidate.
+4. Only after the user agrees, call again with `mode: execute`, the `preview_id` and a fresh `idempotency_key`. Pass `confirm_new_despite_candidates: true` only when the user has confirmed the new customer is different from every candidate; preview again with it set, because a `preview_id` only fits the arguments it was made for.
 
 ## Retries
 
