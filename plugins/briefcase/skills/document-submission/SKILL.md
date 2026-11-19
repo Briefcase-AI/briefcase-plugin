@@ -23,6 +23,10 @@ Otherwise the response gives three routes:
 
 Never fabricate file contents and never submit a file the user did not provide.
 
+## When the user doesn't have the document
+
+For a Briefcase Ledger client, ask the client for it. `briefcase_create_document_request` asks a person who has access to the client for the bill or receipt behind one or more bank lines (`bank_transaction_ids`), or for bank statements (`bank_account_ids` and `months`). It emails them straight away, so call it with `mode: preview` first, show the user who is asked for what, and execute only on a yes with the `preview_id`. `briefcase_list_document_requests` shows what has already been asked for. The clients to do skill has the full steps.
+
 ## Track processing
 
 `briefcase_submit_document` returns an operation. Poll `briefcase_get_operation` no more than once every few seconds until it reaches a final state, then report:

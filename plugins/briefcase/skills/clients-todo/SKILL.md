@@ -1,6 +1,6 @@
 ---
 name: clients-todo
-description: See which Briefcase clients need attention, across every client at once, and act on it. Lists bills and receipts to review, expense claims to publish, schedules to post, unreconciled bank lines, bank feeds and HMRC connections that have lapsed or are about to, VAT returns and MTD for Income Tax updates due, month-ends still open or not started, paperwork clients still owe and overdue debtors, then offers the next actions and carries them out with a preview first. Use when the user asks which clients need attention, what is due this week, what they are waiting on from clients, what is outstanding across their clients or what they should work on, including when they say entities or companies.
+description: See which Briefcase clients need attention, across every client at once, and act on it. Lists bills and receipts to review, expense claims to publish, schedules to post, unreconciled bank lines, bank feeds and HMRC connections that have lapsed or are about to, VAT returns and MTD for Income Tax updates due, month-ends still open or not started, paperwork clients still owe and overdue debtors, then offers the next actions and carries them out with a preview first, including asking a client for missing paperwork or bank statements and sending a reminder. Use when the user asks which clients need attention, what is due this week, what they are waiting on from clients, what is outstanding across their clients or what they should work on, or wants to chase or request paperwork, including when they say entities or companies.
 ---
 
 # Which clients need attention
@@ -74,7 +74,8 @@ What you can do now:
 | Transactions to review | Go through the queue: explain each document, fix the coding, publish or archive | The transaction review skill |
 | Expense claims to publish | Review each claim and publish it | The expense claims skill |
 | Schedules to post | Review the drafts, correct them, publish | The financial close review skill |
-| Unreconciled bank lines | List the lines with `briefcase_list_bank_transactions` and `unreconciled_only: true`. If the user has the missing bill or receipt, upload it so Briefcase can match it | The document submission skill |
+| Unreconciled bank lines | List the lines with `briefcase_list_bank_transactions` and `unreconciled_only: true`. If the user has the missing bill or receipt, upload it so Briefcase can match it. Otherwise ask the client for it, one request per client | The document submission skill; step 7 to ask |
+| Paperwork to chase, Ledger client | Send a reminder for the overdue requests, one per person | Step 7 |
 | Debtors | Draft a chaser for each overdue customer, listing the invoices and what is outstanding: `briefcase_get_aged_report` with the `contact_id`, and `briefcase_get_contact` for who to write to. The user sends it; you never do | The sales invoicing skill, "See what is outstanding" |
 | Month-end still open, Ledger client | Say what blocks the close with `briefcase_get_working_paper`, then clear the unpublished bills and draft schedules it counts | The financial close review skill |
 
@@ -88,7 +89,7 @@ What only the user can do, in Briefcase:
 | Review and submit a VAT return | VAT Return |
 | Submit an MTD for Income Tax update | MTD ITSA |
 | Start a month-end, sign accounts off or close the period; for a Xero client, also see what blocks the close | Working Papers |
-| Chase paperwork | Tasks, where each open request and its reminders are |
+| Chase paperwork for a Xero or QuickBooks client, or ask someone who isn't a Briefcase user yet | Tasks, where each open request and its reminders are |
 
 Before offering a change, check once with `briefcase_get_connection` that `workspace.assistant_writes_enabled` is true. If it is false, or a tool returns `FORBIDDEN`, say once that changes are switched off or which permission is missing, and give links instead.
 
@@ -100,3 +101,25 @@ For Xero and QuickBooks clients, act through the same skills where one applies (
 2. Uploading a document has no preview, because how Briefcase reads and codes it is only known after processing. Upload only a file the user gave you, name the client first, and say so when Autopilot is on for that client and may publish it.
 3. Afterwards call `briefcase_list_client_attention` with that client in `client_ids`, and say what is left for it.
 4. Then offer the next action.
+
+## 7. Chase paperwork
+
+Requests are for Briefcase Ledger clients; the tools return `UNSUPPORTED_CAPABILITY` for others. Raising one and sending a reminder need the Financial close create permission. Both send an email to a real person, so preview, show the user exactly who gets what, and execute only on a yes, with the `preview_id` and a fresh `idempotency_key`. Both refuse to execute without a `preview_id`.
+
+**Remind someone about requests already sent:**
+
+1. `briefcase_list_document_requests` with the `client_id`, or with none for every Ledger client. Each request says who it went to, its `due_date`, whether it `is_overdue`, the items still not done, and under `reminders` how many went, when the last one went and when Briefcase sends the next by itself (`next_automatic_at`).
+2. Propose a reminder for each person with an overdue request, one per person and client: one email lists every open request that person has for the client. Say when the last reminder went and when the next automatic one is due, so the user can decide whether to wait. If `last_delivery_status` is `FAILED`, the emails aren't arriving: say so and suggest checking the address in Briefcase, not another reminder.
+3. `briefcase_send_request_reminder` with `mode: preview`, the `client_id` and the `request_id` of one of that person's requests. Show the `recipient`, the `listed_requests` and, when `other_open_task_count` is above zero, that the email also lists that many approval or payment tasks.
+4. A blocker `REMINDED_RECENTLY` means a reminder already went to that person for that client in the last 24 hours, or is on its way. Say so without guessing at the cause, and stop; never try another of their requests to get round it.
+5. After the yes, execute. `email_queued` means Briefcase is sending it. You never write the email; it is Briefcase's own.
+
+**Ask a client for missing paperwork or bank statements:**
+
+1. For paperwork, list the unreconciled lines (step 5) and agree with the user which ones need a bill or receipt from the client. Leave out lines that need none, such as transfers between the client's own accounts. One request holds up to 50 lines; make one request per client.
+2. Find who to ask with `briefcase_list_users` and the `client_id`. If more than one person could be asked, ask the user who; never pick. The tool only takes someone who already has access to the client. For anyone else, the user raises the request under Tasks in Briefcase, which can invite a new person.
+3. Agree the due date. If the user gives none, propose two weeks from today and say so.
+4. `briefcase_create_document_request` with `mode: preview`, the `client_id`, the `bank_transaction_ids`, the `assignee_user_id`, the `due_date` and an optional `message` in the user's own words. For bank statements pass `bank_account_ids` and `months` (`YYYY-MM`) in place of the lines; the bank account ids are the accounts with `is_bank_account` true in `briefcase_get_reference_data` with `kind: accounts`. One request asks for lines or for statements, never both: when the user wants both, make two requests. A sole trader with more than one business needs `individual_business_id` for paperwork (`briefcase_get_reference_data` with `kind: businesses`).
+5. Show the preview: the recipient and their email, each line or statement month asked for, the due date, the message, and anything in `left_out`, which already has an open request and is not asked for again. Say that executing emails the recipient straight away and that Briefcase then reminds them by itself on the dates in `automatic_reminders_at`.
+6. A blocker `ALREADY_REQUESTED` means everything asked for already has an open request: offer a reminder instead.
+7. After the yes, execute and give the request's `web_url`. If `email_started` is false, the request exists but no email went: say so and offer to send a reminder.
