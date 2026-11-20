@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "briefcase",
-  "version": "1.10.0",
+  "version": "1.11.0",
   "description": "Briefcase Ledger is AI-native accounting software for UK businesses and their accountants. Review what needs approval and why, read profit and loss, balance sheet and aged debtors, raise invoices, post journals and run month-end schedules. Also works for Xero and QuickBooks books through Briefcase Connect.",
   "author": {
     "name": "Briefcase",
@@ -45,7 +45,7 @@
         "logo": "./assets/logo.png"
       },
       "publication": {
-        "release_notes": "The clients to-do skill can now chase paperwork. Ask a client for the bill or receipt behind an unreconciled bank line, or for missing bank statements, and send a reminder for requests that are overdue. The assistant shows who will be emailed and what for, and sends only when you agree. Briefcase keeps sending its own reminders."
+        "release_notes": "The assistant can now work a month-end with you, for Briefcase Ledger companies and Xero clients. Start a working paper, set up the schedule lines that support each balance sheet account on a first close, and update or remove them at each month end. The assistant shows every account with its balance and the difference after the change, and changes nothing until you agree. Signing accounts off and closing the period stay with you in Briefcase. The clients to-do skill offers this for month-ends not started or still open."
       }
     }
   }

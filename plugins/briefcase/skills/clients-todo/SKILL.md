@@ -1,6 +1,6 @@
 ---
 name: clients-todo
-description: See which Briefcase clients need attention, across every client at once, and act on it. Lists bills and receipts to review, expense claims to publish, schedules to post, unreconciled bank lines, bank feeds and HMRC connections that have lapsed or are about to, VAT returns and MTD for Income Tax updates due, month-ends still open or not started, paperwork clients still owe and overdue debtors, then offers the next actions and carries them out with a preview first, including asking a client for missing paperwork or bank statements and sending a reminder. Use when the user asks which clients need attention, what is due this week, what they are waiting on from clients, what is outstanding across their clients or what they should work on, or wants to chase or request paperwork, including when they say entities or companies.
+description: See which Briefcase clients need attention, across every client at once, and act on it. Lists bills and receipts to review, expense claims to publish, schedules to post, unreconciled bank lines, bank feeds and HMRC connections that have lapsed or are about to, VAT returns and MTD for Income Tax updates due, month-ends still open or not started, paperwork clients still owe and overdue debtors, then offers the next actions and carries them out with a preview first, including asking a client for missing paperwork or bank statements, sending a reminder, starting a month-end working paper and setting up its schedules. Use when the user asks which clients need attention, what is due this week, what they are waiting on from clients, what is outstanding across their clients or what they should work on, or wants to chase or request paperwork, including when they say entities or companies.
 ---
 
 # Which clients need attention
@@ -77,7 +77,8 @@ What you can do now:
 | Unreconciled bank lines | List the lines with `briefcase_list_bank_transactions` and `unreconciled_only: true`. If the user has the missing bill or receipt, upload it so Briefcase can match it. Otherwise ask the client for it, one request per client | The document submission skill; step 7 to ask |
 | Paperwork to chase, Ledger client | Send a reminder for the overdue requests, one per person | Step 7 |
 | Debtors | Draft a chaser for each overdue customer, listing the invoices and what is outstanding: `briefcase_get_aged_report` with the `contact_id`, and `briefcase_get_contact` for who to write to. The user sends it; you never do | The sales invoicing skill, "See what is outstanding" |
-| Month-end still open, Ledger client | Say what blocks the close with `briefcase_get_working_paper`, then clear the unpublished bills and draft schedules it counts | The financial close review skill |
+| Month-end not started (`NOT_STARTED`), Ledger or Xero client | Start the working paper for the period that ended on `period_end`, preview first | The financial close review skill, "Start a working paper" |
+| Month-end still open, Ledger or Xero client | Say what blocks the close with `briefcase_get_working_paper`, clear the unpublished bills and draft schedules it counts, then set up or update the schedule lines on its unreconciled accounts, except accounts payable and receivable and accounts linked to a schedule, which take no lines | The financial close review skill |
 
 What only the user can do, in Briefcase:
 
@@ -88,7 +89,7 @@ What only the user can do, in Briefcase:
 | Connect or reconnect HMRC (`NOT_CONNECTED`, `EXPIRED`, `EXPIRING_SOON`) | Business settings → HMRC. It needs the user's own HMRC login |
 | Review and submit a VAT return | VAT Return |
 | Submit an MTD for Income Tax update | MTD ITSA |
-| Start a month-end, sign accounts off or close the period; for a Xero client, also see what blocks the close | Working Papers |
+| Sign accounts off or close the period; reconcile accounts payable and receivable against the aged report | Working Papers |
 | Chase paperwork for a Xero or QuickBooks client, or ask someone who isn't a Briefcase user yet | Tasks, where each open request and its reminders are |
 
 Before offering a change, check once with `briefcase_get_connection` that `workspace.assistant_writes_enabled` is true. If it is false, or a tool returns `FORBIDDEN`, say once that changes are switched off or which permission is missing, and give links instead.
